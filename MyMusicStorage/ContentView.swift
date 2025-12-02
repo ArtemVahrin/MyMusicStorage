@@ -26,22 +26,6 @@ struct ContentView: View {
     }
 }
 
-struct TrackListView: View {
-    var tracks = [Track]()
-    
-    var body: some View {
-        ScrollView() {
-            ForEach(tracks) { track in
-                VStack {
-                    Text(track.artistName)
-                    Text(track.name)
-                    Text("\(track.id)")
-                    AsyncImage(url: URL(string: track.image))
-                }
-            }
-        }
-    }
-}
 #Preview {
     ContentView()
 }
