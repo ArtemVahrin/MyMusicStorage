@@ -11,6 +11,7 @@ import Combine
 class MusicViewModel: ObservableObject {
     
     private let jamendoService: JamendoService
+    @Published var searchText = ""
     @Published var errorMessage: String?
     @Published var tracks = [Track]()
     
@@ -25,5 +26,12 @@ class MusicViewModel: ObservableObject {
             errorMessage = error.localizedDescription
             tracks = []
         }
+    }
+    var filteredTracks: [Track] {
+        guard !searchText.isEmpty else { return tracks }
+        return tracks.filter { track in
+            track.name.lowercased().contains(searchText.lowercased())
+        }
+        
     }
 }

@@ -16,8 +16,12 @@ struct ContentView: View {
         
     }
     var body: some View {
-        VStack {
-            TrackListView(tracks: viewModel.tracks)
+        NavigationStack {
+            VStack {                
+                TrackListView(tracks: viewModel.filteredTracks)
+            }
+            .searchable(text: $viewModel.searchText ,placement: .navigationBarDrawer)
+            .navigationTitle("My Library")
         }
         .task {
             await viewModel.loadPopularTracks()

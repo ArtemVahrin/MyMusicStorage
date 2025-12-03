@@ -21,9 +21,12 @@ struct TrackCellView: View {
             }
             .frame(width: 75, height: 75)
 
-            VStack {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(track.artistName)
+                    .font(.headline)
+                
                 Text(track.name)
+                    .font(.subheadline)
             }
             
             Spacer()
