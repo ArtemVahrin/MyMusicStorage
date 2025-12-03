@@ -37,9 +37,9 @@ struct TrackCellView: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: 1)
+//        .background(Color(.systemBackground))
+//        .cornerRadius(12)
+//        .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: 1)
     }
 }
 

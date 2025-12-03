@@ -16,20 +16,17 @@ struct ContentView: View {
         
     }
     var body: some View {
+
         NavigationStack {
-            VStack {                
-//                TrackListView(tracks: viewModel.filteredTracks)
-                AlbumsLibraryView(albums: viewModel.albums)
-            }
-            .searchable(text: $viewModel.searchText ,placement: .navigationBarDrawer)
-            .navigationTitle("My Library")
+            AlbumsLibraryView(albums: viewModel.filteredAlbums)
+                .navigationTitle("My Library")
         }
+        .searchable(text: $viewModel.searchText ,placement: .navigationBarDrawer)
         .task {
             await viewModel.loadPopularTracks()
-        }
-        .task {
             await viewModel.loadPopularAlbums()
         }
+
         .padding()
     }
 }

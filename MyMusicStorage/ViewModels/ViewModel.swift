@@ -38,10 +38,10 @@ class MusicViewModel: ObservableObject {
             tracks = []
         }
     }
-    var filteredTracks: [Track] {
-        guard !searchText.isEmpty else { return tracks }
-        return tracks.filter { track in
-            track.name.lowercased().contains(searchText.lowercased())
+    var filteredAlbums: [Album] {
+        guard !searchText.isEmpty else { return albums }
+        return albums.filter { album in
+            return album.name.lowercased().contains(searchText.lowercased()) || album.artistName.lowercased().contains(searchText.lowercased())
         }
         
     }
