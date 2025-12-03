@@ -11,12 +11,23 @@ import Combine
 class MusicViewModel: ObservableObject {
     
     private let jamendoService: JamendoService
+    
     @Published var searchText = ""
     @Published var errorMessage: String?
     @Published var tracks = [Track]()
+    @Published var albums = [Album]()
     
     init(jamendoService: JamendoService) {
         self.jamendoService = jamendoService
+    }
+    
+    func loadPopularAlbums() async {
+        do {
+            albums = try await jamendoService.fetchPopularAlbums(limit: 20)
+        } catch {
+            errorMessage = error.localizedDescription
+            albums = []
+        }
     }
     
     func loadPopularTracks() async {

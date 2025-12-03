@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct JamendoResponse: Codable {
+struct JamendoResponse<T: Codable>: Codable {
     let headers: ResponseHeaders
-    let results: [Track]
+    let results: [T]
 }
 
 struct ResponseHeaders: Codable {
@@ -18,7 +18,6 @@ struct ResponseHeaders: Codable {
 }
 
 class JamendoService {
-    
     private var clientId: String
     private let baseURL: String
     private let dataFetcher: DataFetcher
@@ -30,10 +29,20 @@ class JamendoService {
     }
     
     func fetchPopularTracks(limit: Int = 20) async throws -> [Track] {
-        try await dataFetcher.fetchTracks(parameters: [
+        let result: [Track] = try await dataFetcher.fetchData(dataType: .tracks("/tracks/"), parameters: [
             "order": "popularity_total",
             "limit": "\(limit)"
         ])
+        print(result)
+        return result
+    }
+    func fetchPopularAlbums(limit: Int = 20) async throws -> [Album] {
+        let result: [Album] = try await dataFetcher.fetchData(dataType: .albums("/albums/"), parameters: [
+            "order": "popularity_total",
+            "limit": "\(limit)"
+        ])
+        print(result)
+        return result
     }
 }
 
@@ -42,6 +51,10 @@ enum APIError: Error {
     case serverError(String)
 }
 
+enum Endpoint {
+    case tracks(String)
+    case albums(String)
+}
 struct URLBuilder {
     let baseURL: String
     
@@ -61,16 +74,26 @@ struct DataFetcher {
     let baseURL: String
     let clientId: String
     
-    fileprivate func fetchTracks(parameters: [String: String]) async throws-> [Track] {
+    fileprivate func fetchData<T: Codable>(dataType: Endpoint,parameters: [String: String]) async throws-> [T] {
         var params = parameters
         params["client_id"] = clientId
         params["format"] = "json"
         
-        let url = try URLBuilder(baseURL: baseURL).buildURL(endpoint: "/tracks/", parameters: params)
+        let endpoint: Endpoint = dataType
+        var stringEndpoint: String
+        
+        switch endpoint {
+        case .albums(let albumEndpoint):
+            stringEndpoint = albumEndpoint
+        case .tracks(let tracksEndpoint):
+            stringEndpoint = tracksEndpoint
+        }
+        
+        let url = try URLBuilder(baseURL: baseURL).buildURL(endpoint: stringEndpoint, parameters: params)
         
         let (data,_) = try await URLSession.shared.data(from: url)
         
-        let response = try JSONDecoder().decode(JamendoResponse.self, from: data)
+        let response = try JSONDecoder().decode(JamendoResponse<T>.self, from: data)
         
         guard response.headers.code == 0 else {
             throw APIError.serverError(response.headers.errorMessage ?? "Unknown Error")
