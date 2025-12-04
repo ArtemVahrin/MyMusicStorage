@@ -8,17 +8,21 @@
 import SwiftUI
 
 struct TrackListView: View {
-    var tracks = [Track]()
-    
+    var album: Album
     var body: some View {
-        ScrollView() {
-            ForEach(tracks) { track in
-                TrackCellView(track: track)
+        VStack() {
+            HStack(alignment: .center) {
+                AlbumCellView(album: album)
+            }
+            ScrollView() {
+                ForEach(album.tracks.sorted()) { track in
+                    TrackCellView(track: track)
+                }
             }
         }
     }
 }
 
 #Preview {
-    TrackListView()
+    TrackListView(album: Album(id: "", name: "", artistName: "", image: "", tracks: []))
 }

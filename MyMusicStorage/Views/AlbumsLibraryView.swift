@@ -15,7 +15,7 @@ struct AlbumsLibraryView: View {
             ScrollView {
                 LazyVGrid(columns: [columnSize]) {
                     ForEach(albums) { album in
-                        AlbumCellView(album: album)
+                        AlbumCellViewNavigation(album: album)
                     }
                 }
             }

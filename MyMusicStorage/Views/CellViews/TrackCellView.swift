@@ -12,18 +12,9 @@ struct TrackCellView: View {
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: track.image)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 75, height: 75)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(track.artistName)
-                    .font(.headline)
+            HStack(spacing: 20) {
+                Text(track.position)
+                    .font(.subheadline)
                 
                 Text(track.name)
                     .font(.subheadline)
@@ -37,12 +28,9 @@ struct TrackCellView: View {
             }
         }
         .padding()
-//        .background(Color(.systemBackground))
-//        .cornerRadius(12)
-//        .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: 1)
     }
 }
 
 #Preview {
-    TrackCellView(track: Track(id: "1", name: "1", artistName: "1", image: "1"))
+    TrackCellView(track: Track(id: "1", name: "1", position: "1"))
 }

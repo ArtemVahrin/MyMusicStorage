@@ -7,15 +7,16 @@
 
 import Foundation
 
-struct Track: Identifiable, Codable {
+struct Track: Identifiable, Codable, Hashable {
     let id: String
     let name: String
-    let artistName: String
-    let image: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, image
-        case artistName = "artist_name"
-        
+    let position: String
+}
+
+extension Track: Comparable {
+    static func < (lhs: Track, rhs: Track) -> Bool {
+        return Int(lhs.position)! < Int(rhs.position)!
     }
+    
+    
 }

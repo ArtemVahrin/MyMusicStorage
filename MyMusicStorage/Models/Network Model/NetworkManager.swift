@@ -26,9 +26,10 @@ class JamendoService {
         return result
     }
     func fetchPopularAlbums(limit: Int = 20) async throws -> [Album] {
-        let result: [Album] = try await dataFetcher.fetchData(dataType: .albums("/albums/"), parameters: [
-            "order": "popularity_total",
-            "limit": "\(limit)"
+        let result: [Album] = try await dataFetcher.fetchData(dataType: .albums("/albums/tracks"), parameters: [
+            "order": "popularity_week",
+            "limit": "\(limit)",
+            "type": "album"
         ])
         print(result)
         return result

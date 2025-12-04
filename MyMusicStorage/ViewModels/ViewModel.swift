@@ -14,7 +14,6 @@ class MusicViewModel: ObservableObject {
     
     @Published var searchText = ""
     @Published var errorMessage: String?
-    @Published var tracks = [Track]()
     @Published var albums = [Album]()
     
     init(jamendoService: JamendoService) {
@@ -30,19 +29,10 @@ class MusicViewModel: ObservableObject {
         }
     }
     
-    func loadPopularTracks() async {
-        do {
-            tracks = try await jamendoService.fetchPopularTracks(limit: 20)
-        } catch {
-            errorMessage = error.localizedDescription
-            tracks = []
-        }
-    }
     var filteredAlbums: [Album] {
         guard !searchText.isEmpty else { return albums }
         return albums.filter { album in
             return album.name.lowercased().contains(searchText.lowercased()) || album.artistName.lowercased().contains(searchText.lowercased())
         }
-        
     }
 }

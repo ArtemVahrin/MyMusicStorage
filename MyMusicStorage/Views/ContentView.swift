@@ -19,11 +19,9 @@ struct ContentView: View {
 
         NavigationStack {
             AlbumsLibraryView(albums: viewModel.filteredAlbums)
-                .navigationTitle("My Library")
         }
         .searchable(text: $viewModel.searchText ,placement: .navigationBarDrawer)
         .task {
-            await viewModel.loadPopularTracks()
             await viewModel.loadPopularAlbums()
         }
 
