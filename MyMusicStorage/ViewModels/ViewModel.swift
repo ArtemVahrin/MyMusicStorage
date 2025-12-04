@@ -22,7 +22,7 @@ class MusicViewModel: ObservableObject {
     
     func loadPopularAlbums() async {
         do {
-            albums = try await jamendoService.fetchPopularAlbums(limit: 20)
+            albums = try await jamendoService.fetchPopularAlbums(limit: 100)
         } catch {
             errorMessage = error.localizedDescription
             albums = []

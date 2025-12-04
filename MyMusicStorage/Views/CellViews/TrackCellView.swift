@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TrackCellView: View {
     var track: Track
+    @State var isPresented = false
     
     var body: some View {
         HStack {
@@ -18,13 +19,15 @@ struct TrackCellView: View {
                 
                 Text(track.name)
                     .font(.subheadline)
+                    .lineLimit(1)
             }
-            
+        
             Spacer()
-            Button {
-                
+            
+            Button() {
+                isPresented.toggle()
             } label: {
-                Image(systemName: "play.fill")
+                Image(systemName: "heart") // add change systemImage at button Press
             }
         }
         .padding()

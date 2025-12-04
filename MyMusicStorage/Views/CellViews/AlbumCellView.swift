@@ -28,12 +28,10 @@ struct AlbumCellView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             
             Text(album.name)
-                .lineLimit(1)
                 .font(.headline)
             
             Text(album.artistName)
                 .font(.subheadline)
-                .lineLimit(1)
         }
         .padding()
     }

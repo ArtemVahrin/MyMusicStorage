@@ -12,16 +12,37 @@ struct AlbumsLibraryView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: [columnSize]) {
-                    ForEach(albums) { album in
-                        AlbumCellViewNavigation(album: album)
+            TabView {
+                Tab("Popular Albums", systemImage: "music.note.list") {
+                    VStack {
+                        Text("Library List")
+                            .font(.largeTitle)
+                            .bold()
+                        
+                        ScrollView {
+                            LazyVGrid(columns: [columnSize]) {
+                                ForEach(albums) { album in
+                                    AlbumCellViewNavigation(album: album)
+                                }
+                            }
+                        }
+                    }
+                }
+                Tab("Saved Tracks", systemImage: "music.note") {
+                    VStack {
+                        Text("Saved Tracks")
+                            .font(.largeTitle)
+                            .bold()
+                        
+                        Spacer()
+                        
+                        TrackCellView(track: Track(id: "1", name: "name", position: "pos"))
                     }
                 }
             }
-            .navigationTitle("My ALbum Library")
         }
     }
+    
     private let columnSize = GridItem(.adaptive(minimum: 150, maximum: .infinity), spacing: 8, alignment: .top)
 }
 

@@ -13,7 +13,27 @@ struct TrackListView: View {
         VStack() {
             HStack(alignment: .center) {
                 AlbumCellView(album: album)
+                    .scaleEffect(1.3)
             }
+            
+            HStack(spacing: 20) {
+                Button {//Like button
+                    
+                } label: {
+                    Image(systemName: "heart")
+                        .padding()
+                }
+
+                Button { //Share Button
+                    
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                        .padding()
+                }
+                .frame(width: 50, height: 50)
+
+            }
+            .padding()
             ScrollView() {
                 ForEach(album.tracks.sorted()) { track in
                     TrackCellView(track: track)
