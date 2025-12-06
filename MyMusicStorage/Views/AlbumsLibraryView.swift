@@ -10,18 +10,15 @@ import SwiftUI
 struct AlbumsLibraryView: View {
     var albums = [Album]()
     let onToggleFavorite: (Album) -> ()
+    let isFavoriteAlbum: (String) -> Bool
     
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Library List")
-                    .font(.largeTitle)
-                    .bold()
-             
                 ScrollView {
                     LazyVGrid(columns: [columnSize]) {
                         ForEach(albums) { album in
-                            AlbumCellViewNavigation(album: album, onToggleFavorite: onToggleFavorite)
+                            AlbumCellViewNavigation(album: album, onToggleFavorite: onToggleFavorite, isFavoriteAlbum: isFavoriteAlbum(album.id))
                         }
                     }
                 }

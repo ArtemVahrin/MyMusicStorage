@@ -21,22 +21,34 @@ struct ContentView: View {
         TabView {
             Tab("Popular Tracks", systemImage: "music.note") {
                 NavigationStack {
-                    AlbumsLibraryView(albums: viewModel.filteredAlbums, onToggleFavorite: { album in
-                        viewModel.toggleFavorite(album: album)
+                    AlbumsLibraryView(
+                        albums: viewModel.filteredAlbums,
+                        onToggleFavorite: { album in
+                            viewModel.toggleFavorite(album: album)
+                        },
+                        isFavoriteAlbum: { albumId in
+                            viewModel.isFavorite(albumId)
                     })
+                    .navigationTitle("Library")
                 }
                 // FIXME: need to create cusom searchBar
                 .task {
                     await viewModel.loadPopularAlbums()
-                    
                 }
             }
             
-            Tab("Saved Tracks", systemImage: "music.note") {
-                SavedTrackListView(albums: viewModel.favoriteAlbums, onToggleFavorite: { album in
-                    viewModel.toggleFavorite(album: album)
+            Tab("Saved Tracks", systemImage: "heart") { //FIXME: Need to add reload images in this tab
+                NavigationStack {
+                    SavedTrackListView(albums: viewModel.favoriteAlbums,
+                        onToggleFavorite: { album in
+                        viewModel.toggleFavorite(album: album)
+                    },
+                    isFavoriteAlbum: { albumId in
+                        viewModel.isFavorite(albumId)
                 })
-
+                    .navigationTitle("Favorite")
+                }
+                
             }
         }
         

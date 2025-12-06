@@ -9,7 +9,6 @@ import Foundation
 import Combine
 
 class MusicViewModel: ObservableObject {
-    
     private let jamendoService: JamendoService
     private let favoritesRepository: FavoriteRepository
     
@@ -75,5 +74,9 @@ class MusicViewModel: ObservableObject {
         } catch {
             errorMessage = "Failed to update favorites: \(error.localizedDescription)"
         }
+    }
+    
+    func isFavorite(_ albumId: String) -> Bool {
+        favoritesRepository.isFavorite(albumId: albumId)
     }
 }

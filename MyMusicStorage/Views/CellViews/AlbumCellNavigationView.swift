@@ -10,10 +10,12 @@ import SwiftUI
 struct AlbumCellViewNavigation: View {
     var album: Album
     let onToggleFavorite: (Album) -> ()
+    var isFavoriteAlbum: Bool
+    
     var body: some View {
         NavigationStack {
             NavigationLink {
-                TrackListView(album: album, onToggleFavorite: onToggleFavorite)
+                TrackListView(album: album, onToggleFavorite: onToggleFavorite, isFavoriteAlbum: isFavoriteAlbum)
                 
             } label: {
                 AlbumCellView(album: album)

@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct SavedTrackListView: View {
-//    var tracks: [FavoriteTrack]
     var albums: [FavoriteAlbum]
     var onToggleFavorite: (Album) -> ()
+    var isFavoriteAlbum: (String) -> Bool
     var body: some View {
-        Text("Saved Tracks")
-            .font(.largeTitle)
-            .bold()
+
         if !albums.isEmpty {
-            AlbumsLibraryView(albums: albums.map({ $0.toAlbum()}), onToggleFavorite: onToggleFavorite)
+            AlbumsLibraryView(albums:
+                                albums.map({ $0.toAlbum()}),
+                              onToggleFavorite: onToggleFavorite,
+                              isFavoriteAlbum: isFavoriteAlbum)
         } else {
             Text("No Saved albums")
         }
