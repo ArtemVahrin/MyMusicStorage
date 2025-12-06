@@ -11,6 +11,8 @@ struct Track: Identifiable, Codable, Hashable {
     let id: String
     let name: String
     let position: String
+    let duration: String
+    
 }
 
 extension Track: Comparable {

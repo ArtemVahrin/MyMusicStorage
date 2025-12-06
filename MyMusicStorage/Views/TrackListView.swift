@@ -9,6 +9,9 @@ import SwiftUI
 
 struct TrackListView: View {
     var album: Album
+    @State var isSaved = false
+    let onToggleFavorite: (Album) -> ()
+    
     var body: some View {
         VStack() {
             HStack(alignment: .center) {
@@ -17,10 +20,11 @@ struct TrackListView: View {
             }
             
             HStack(spacing: 20) {
-                Button {//Like button
-                    
+                Button { //Like button
+                    onToggleFavorite(album)
+                    isSaved.toggle()
                 } label: {
-                    Image(systemName: "heart")
+                    Image(systemName: isSaved ? "heart.fill" : "heart")
                         .padding()
                 }
 
@@ -43,6 +47,6 @@ struct TrackListView: View {
     }
 }
 
-#Preview {
-    TrackListView(album: Album(id: "", name: "", artistName: "", image: "", tracks: []))
-}
+//#Preview {
+//    TrackListView(album: Album(id: "", name: "", artistName: "", image: "", tracks: []), onTogglefavorite: )
+//}

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TrackCellView: View {
+    @State private var isSaved = false
     var track: Track
-    @State var isPresented = false
     
     var body: some View {
         HStack {
@@ -24,16 +24,17 @@ struct TrackCellView: View {
         
             Spacer()
             
+//MARK: Save Button
             Button() {
-                isPresented.toggle()
+                isSaved.toggle()
             } label: {
-                Image(systemName: "heart") // add change systemImage at button Press
+                Image(systemName: isSaved ? "heart.fill" : "heart") // add change systemImage at button Press
             }
         }
         .padding()
     }
 }
 
-#Preview {
-    TrackCellView(track: Track(id: "1", name: "1", position: "1"))
-}
+//#Preview {
+//    TrackCellView(track: Track(id: "1", name: "1", position: "1", duration: ""))
+//}
