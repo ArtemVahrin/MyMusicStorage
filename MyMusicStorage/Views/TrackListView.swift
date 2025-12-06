@@ -26,6 +26,7 @@ struct TrackListView: View {
                 } label: {
                     Image(systemName: isFavoriteAlbum ? "heart.fill" : "heart")
                         .padding()
+                    
                 }
 
                 Button { //Share Button

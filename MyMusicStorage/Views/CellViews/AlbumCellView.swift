@@ -11,21 +11,8 @@ struct AlbumCellView: View {
     var album: Album
     
     var body: some View {
-        LazyVStack() {
-            AsyncImage(url: URL(string: album.image), content: { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable()
-                case .empty:
-                    ProgressView()
-                case .failure(_):
-                    Image(systemName: "music.note")
-                @unknown default:
-                    EmptyView()
-                }
-            })
-            .frame(width: 150, height: 150)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+        LazyVStack {
+            AlbumImageView(url: album.image)
             
             Text(album.name)
                 .font(.headline)
@@ -34,6 +21,30 @@ struct AlbumCellView: View {
                 .font(.subheadline)
         }
         .padding()
+    }
+}
+struct AlbumImageView: View {
+    var url: String
+    
+    var body: some View {
+        AsyncImage(url: URL(string: url), content: { phase in
+            switch phase {
+            case .success(let image):
+                image.resizable()
+            case .empty:
+                ProgressView()
+            case .failure(let error):
+                if !error.localizedDescription.isEmpty {
+                    AlbumImageView(url: url)
+                } else {
+                    Image(systemName: "music.note")
+                }
+            @unknown default:
+                EmptyView()
+            }
+        })
+        .frame(width: 150, height: 150)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
