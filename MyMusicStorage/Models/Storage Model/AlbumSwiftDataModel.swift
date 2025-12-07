@@ -33,7 +33,7 @@ final class FavoriteAlbum: Identifiable, Hashable {
         let name = album.name
         let artistName = album.artistName
         let image = album.image
-        let tracks = album.tracks /*as! [TrackSwiftDataModel]*/
+        let tracks = album.tracks 
         
         self.init(id: id, name: name, artistName: artistName, image: image, tracks: tracks)
     }

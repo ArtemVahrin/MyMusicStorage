@@ -19,7 +19,7 @@ struct ContentView: View {
     var body: some View {
         
         TabView {
-            Tab("Popular Tracks", systemImage: "music.note") {
+            Tab("Popular", systemImage: "music.note") {
                 NavigationStack {
                     AlbumsLibraryView(
                         albums: viewModel.filteredAlbums,
@@ -37,7 +37,7 @@ struct ContentView: View {
                 }
             }
             
-            Tab("Saved Tracks", systemImage: "heart") { //FIXME: Need to add reload images in this tab
+            Tab("Saved", systemImage: "heart") { 
                 NavigationStack {
                     SavedTrackListView(albums: viewModel.favoriteAlbums,
                         onToggleFavorite: { album in
@@ -46,7 +46,7 @@ struct ContentView: View {
                     isFavoriteAlbum: { albumId in
                         viewModel.isFavorite(albumId)
                 })
-                    .navigationTitle("Favorite")
+                    .navigationTitle("Favorite albums")
                 }
             }
         }
