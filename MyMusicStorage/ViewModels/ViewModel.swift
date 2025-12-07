@@ -13,8 +13,10 @@ class MusicViewModel: ObservableObject {
     private let favoritesRepository: FavoriteRepository
     
     @Published var searchText = ""
+    @Published var searchTextFromApi = ""
     @Published var errorMessage: String?
     @Published var albums = [Album]()
+    @Published var searchedAlbums = [Album]()
     @Published var favoriteTracks = [FavoriteTrack]()
     @Published var favoriteAlbums = [FavoriteAlbum]()
     
@@ -33,13 +35,29 @@ class MusicViewModel: ObservableObject {
         }
     }
     
+    func searcAlbumsFromAPI(query: String) async {
+        guard !query.isEmpty else {
+            await loadPopularAlbums()
+            return
+        }
+
+        do {
+            searchedAlbums = try await jamendoService.searchAlbumFromAPI(query: query, limit: 100)
+        } catch {
+            errorMessage = error.localizedDescription
+            searchedAlbums = []
+        }
+        
+    }
+    
     func loadFavoriteTracks() {
         favoriteTracks = favoritesRepository.getAllFavorites()
     }
     
-    var filteredAlbums: [Album] {
-        guard !searchText.isEmpty else { return albums }
-        return albums.filter { album in
+    var filteredFavoriteAlbums: [FavoriteAlbum] {
+        guard !searchText.isEmpty else { return favoriteAlbums }
+        
+        return favoriteAlbums.filter { album in
             return album.name.lowercased().contains(searchText.lowercased()) || album.artistName.lowercased().contains(searchText.lowercased())
         }
     }
@@ -76,7 +94,7 @@ class MusicViewModel: ObservableObject {
         }
     }
     
-    func isFavorite(_ albumId: String) -> Bool {
+    func isFavoriteAlbum(_ albumId: String) -> Bool {
         favoritesRepository.isFavorite(albumId: albumId)
     }
 }

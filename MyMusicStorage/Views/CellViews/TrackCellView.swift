@@ -25,11 +25,11 @@ struct TrackCellView: View {
             Spacer()
             
 //MARK: Save Button
-            Button() {
-                isSaved.toggle()
-            } label: {
-                Image(systemName: isSaved ? "heart.fill" : "heart") // add change systemImage at button Press
-            }
+//            Button() {
+//                isSaved.toggle()
+//            } label: {
+//                Image(systemName: isSaved ? "heart.fill" : "heart") // add change systemImage at button Press
+//            }
         }
         .padding()
     }

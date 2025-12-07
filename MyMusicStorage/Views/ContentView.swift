@@ -10,7 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @StateObject private var viewModel: MusicViewModel
-    
+    @State var searchFromApiText: String = ""
     init() {
         let service = JamendoService(clientId: "a4fa908b", baseURL: "https://api.jamendo.com/v3.0")
         let repository = FavoriteRepository(modelContext: PersistenceController.shared.container.mainContext)
@@ -22,36 +22,63 @@ struct ContentView: View {
             Tab("Popular", systemImage: "music.note") {
                 NavigationStack {
                     AlbumsLibraryView(
-                        albums: viewModel.filteredAlbums,
+                        albums: viewModel.albums,
                         onToggleFavorite: { album in
                             viewModel.toggleFavorite(album: album)
                         },
                         isFavoriteAlbum: { albumId in
-                            viewModel.isFavorite(albumId)
-                    })
+                            viewModel.isFavoriteAlbum(albumId)
+                        })
+                    .animation(.default,value: viewModel.albums)
                     .navigationTitle("Library")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            NavigationLink {
+                                SearchView(albums: viewModel.searchedAlbums,                              onToggleFavorite: { album in
+                                                viewModel.toggleFavorite(album: album)
+                                            },
+                                            isFavoriteAlbum: { albumId in
+                                                viewModel.isFavoriteAlbum(albumId)
+                                            },
+                                            searchFromAPItext: $searchFromApiText,
+                                            onCommit: performSearch)
+                            } label: {
+                                Image(systemName: "magnifyingglass")
+                            }
+
+                        }
+                    }
                 }
+                
                 // FIXME: need to create cusom searchBar
                 .task {
                     await viewModel.loadPopularAlbums()
                 }
             }
             
-            Tab("Saved", systemImage: "heart") { 
+            Tab("Saved", systemImage: "heart") {
                 NavigationStack {
-                    SavedTrackListView(albums: viewModel.favoriteAlbums,
-                        onToggleFavorite: { album in
+                    SavedTrackListView(albums: viewModel.filteredFavoriteAlbums,
+                                       onToggleFavorite: { album in
                         viewModel.toggleFavorite(album: album)
                     },
-                    isFavoriteAlbum: { albumId in
-                        viewModel.isFavorite(albumId)
-                })
+                                       isFavoriteAlbum: { albumId in
+                        viewModel.isFavoriteAlbum(albumId)
+                    })
+                    .animation(.default,value: viewModel.filteredFavoriteAlbums)
                     .navigationTitle("Favorite albums")
                 }
+                .searchable(text: $viewModel.searchText)
+                
             }
         }
-        
         .padding()
+    }
+    
+    func performSearch() {
+        Task {
+            await viewModel.searcAlbumsFromAPI(query: searchFromApiText)
+        }
     }
 }
 
