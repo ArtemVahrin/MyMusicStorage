@@ -32,6 +32,7 @@ struct SearchView: View {
 
             }
         }
+        .padding()
         Spacer()
         
         AlbumsLibraryView(albums: albums, onToggleFavorite: onToggleFavorite, isFavoriteAlbum: isFavoriteAlbum)

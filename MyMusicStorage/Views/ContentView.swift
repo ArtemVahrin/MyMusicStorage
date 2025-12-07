@@ -30,7 +30,7 @@ struct ContentView: View {
                             viewModel.isFavoriteAlbum(albumId)
                         })
                     .animation(.default,value: viewModel.albums)
-                    .navigationTitle("Library")
+                    .navigationTitle("Popular Albums")
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
                             NavigationLink {
